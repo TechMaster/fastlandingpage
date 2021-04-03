@@ -1,6 +1,6 @@
 # Tạo landing page siêu nhanh , nhẹ với [valyala/fasthttp](https://github.com/valyala/fasthttp)
 
-Hiện nay Techmaster sử dụng iris framework cũng code rất dài dòng và thừa chỉ để phục vụ langding page tính. Việc này khiến cho Docker image size vừa lớn, tốc độ khởi động chậm và tốn bộ nhớ của VPS. Tôi đề xuất sử dụng thư viện [valyala/fasthttp](https://github.com/valyala/fasthttp) để tạo ra một web server siêu đơn giản, chuyên phục vụ nội dụng web tĩnh
+Hiện nay Techmaster sử dụng iris framework cũng code rất dài dòng và thừa chỉ để phục vụ langding page tĩnh. Việc này khiến cho Docker image size vừa lớn, tốc độ khởi động chậm và tốn bộ nhớ của VPS. Tôi đề xuất sử dụng thư viện [valyala/fasthttp](https://github.com/valyala/fasthttp) để tạo ra một web server siêu đơn giản, chuyên phục vụ nội dụng web tĩnh
 
 **Cách tiến hành như sau:**
 
@@ -59,3 +59,27 @@ go build
 
 5. Mở trình duyệt vào http://localhost:8080 sẽ thấy web site đơn giản với ảnh con mèo
 ![](images/Hello_World.jpg)
+
+## Thử benchmark web site này
+
+Sử dụng tool [https://github.com/codesenberg/bombardier](https://github.com/codesenberg/bombardier)
+
+```
+bombardier -c 125 -n 10000000 http://localhost:8080
+```
+
+Kết quả
+```
+Bombarding http://localhost:8080 with 10000000 request(s) using 125 connection(s)
+ 10000000 / 10000000 [==================================] 100.00% 104070/s 1m36s
+Done!
+Statistics        Avg      Stdev        Max
+  Reqs/sec    104109.46    5062.08  121245.54
+  Latency        1.20ms    90.39us    24.52ms
+  HTTP codes:
+    1xx - 0, 2xx - 10000000, 3xx - 0, 4xx - 0, 5xx - 0
+    others - 0
+  Throughput:    55.90MB/s
+```
+
+Tốc độ phục vụ rất tốt
